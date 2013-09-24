@@ -13,7 +13,7 @@
 @implementation GAPlugin
 - (void) initGA:(CDVInvokedUrlCommand*)command
 {
-    NSString        *callbackId = [command.callbackId];
+    NSString        *callbackId = command.callbackId;
     NSString        *accountID = [command.arguments objectAtIndex:0];
     NSInteger       dispatchPeriod = [[command.arguments objectAtIndex:1] intValue];
 
@@ -33,7 +33,7 @@
 
 -(void) exitGA:(CDVInvokedUrlCommand*)command
 {
-    NSString        *callbackId = [command.callbackId];
+    NSString        *callbackId = command.callbackId;
 
     if (inited)
         [[[GAI sharedInstance] defaultTracker] close];
@@ -43,7 +43,7 @@
 
 - (void) trackEvent:(CDVInvokedUrlCommand*)command
 {
-    NSString        *callbackId = [command.callbackId];
+    NSString        *callbackId = command.callbackId;
     NSString        *category = [command.arguments objectAtIndex:0];
     NSString        *eventAction = [command.arguments objectAtIndex:1];
     NSString        *eventLabel = [command.arguments objectAtIndex:2];
@@ -67,7 +67,7 @@
 
 - (void) trackPage:(CDVInvokedUrlCommand*)command
 {
-    NSString            *callbackId = [command.callbackId];
+    NSString            *callbackId = command.callbackId;
     NSString            *pageURL = [command.arguments objectAtIndex:0];
 
     if (inited)
@@ -89,7 +89,7 @@
 
 - (void) setVariable:(CDVInvokedUrlCommand*)command
 {
-    NSString            *callbackId = [command.callbackId];
+    NSString            *callbackId = command.callbackId;
     NSInteger           index = [[command.arguments objectAtIndex:0] intValue];
     NSString            *value = [command.arguments objectAtIndex:1];
     
