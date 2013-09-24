@@ -17,6 +17,8 @@
     NSString        *accountID = [command.arguments objectAtIndex:0];
     NSInteger       dispatchPeriod = [[command.arguments objectAtIndex:1] intValue];
 
+    NSLog(@"initGA");
+
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
     [GAI sharedInstance].dispatchInterval = dispatchPeriod;
@@ -111,7 +113,6 @@
 {
     CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:message];
     
-    //[self writeJavascript:[commandResult toSuccessCallbackString:callbackId]];
     [self.commandDelegate sendPluginResult:commandResult callbackId:callbackId];
 }
 
@@ -120,14 +121,12 @@
     NSString        *errorMessage = (error) ? [NSString stringWithFormat:@"%@ - %@", message, [error localizedDescription]] : message;
     CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
     
-    //[self writeJavascript:[commandResult toErrorCallbackString:callbackId]];
     [self.commandDelegate sendPluginResult:commandResult callbackId:callbackId];
 }
 
 -(void)dealloc
 {
     [[[GAI sharedInstance] defaultTracker] close];
-    //[super dealloc];
 }
 
 @end
