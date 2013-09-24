@@ -1,8 +1,11 @@
 package com.adobe.plugins;
 
-import org.apache.cordova.api.CallbackContext;
-import org.apache.cordova.api.CordovaPlugin;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.google.analytics.tracking.android.GAServiceManager;
 import com.google.analytics.tracking.android.GoogleAnalytics;
@@ -10,9 +13,11 @@ import com.google.analytics.tracking.android.Tracker;
 
 public class GAPlugin extends CordovaPlugin {
 	@Override
-	public boolean execute(String action, JSONArray args, CallbackContext callback) {
+	public boolean execute(String action, JSONArray args, CallbackContext callback) throws 
+	JSONException {
+
 		GoogleAnalytics ga = GoogleAnalytics.getInstance(cordova.getActivity());
-		Tracker tracker = ga.getDefaultTracker(); 
+		Tracker tracker = ga.getDefaultTracker();
 
 		if (action.equals("initGA")) {
 			try {
@@ -75,7 +80,11 @@ public class GAPlugin extends CordovaPlugin {
 				callback.error(e.getMessage());
 			}
 		}
+
 		return false;
+
+
 	}
+
 }
 
