@@ -13,7 +13,7 @@
 @implementation GAPlugin
 - (void) initGA:(CDVInvokedUrlCommand*)command
 {
-    NSString        *callbackId = [command.arguments pop];
+    NSString        *callbackId = [command.callbackId];
     NSString        *accountID = [command.arguments objectAtIndex:0];
     NSInteger       dispatchPeriod = [[command.arguments objectAtIndex:1] intValue];
 
@@ -33,7 +33,7 @@
 
 -(void) exitGA:(CDVInvokedUrlCommand*)command
 {
-    NSString        *callbackId = [command.arguments pop];
+    NSString        *callbackId = [command.callbackId];
 
     if (inited)
         [[[GAI sharedInstance] defaultTracker] close];
@@ -43,7 +43,7 @@
 
 - (void) trackEvent:(CDVInvokedUrlCommand*)command
 {
-    NSString        *callbackId = [command.arguments pop];
+    NSString        *callbackId = [command.callbackId];
     NSString        *category = [command.arguments objectAtIndex:0];
     NSString        *eventAction = [command.arguments objectAtIndex:1];
     NSString        *eventLabel = [command.arguments objectAtIndex:2];
@@ -67,7 +67,7 @@
 
 - (void) trackPage:(CDVInvokedUrlCommand*)command
 {
-    NSString            *callbackId = [command.arguments pop];
+    NSString            *callbackId = [command.callbackId];
     NSString            *pageURL = [command.arguments objectAtIndex:0];
 
     if (inited)
@@ -89,7 +89,7 @@
 
 - (void) setVariable:(CDVInvokedUrlCommand*)command
 {
-    NSString            *callbackId = [command.arguments pop];
+    NSString            *callbackId = [command.callbackId];
     NSInteger           index = [[command.arguments objectAtIndex:0] intValue];
     NSString            *value = [command.arguments objectAtIndex:1];
     
@@ -107,12 +107,12 @@
         [self failWithMessage:@"setVariable failed - not initialized" toID:callbackId withError:nil];
 }
 
--(void)successWithMessage:(CDVInvokedUrlCommand*)command
+-(void)successWithMessage:(NSString *)message toID:(NSString *)callbackId
 {
     CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:message];
     
     //[self writeJavascript:[commandResult toSuccessCallbackString:callbackId]];
-    [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:commandResult callbackId:callbackId];
 }
 
 -(void)failWithMessage:(NSString *)message toID:(NSString *)callbackId withError:(NSError *)error
@@ -121,13 +121,13 @@
     CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
     
     //[self writeJavascript:[commandResult toErrorCallbackString:callbackId]];
-    [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
+    [self.commandDelegate sendPluginResult:commandResult callbackId:callbackId];
 }
 
 -(void)dealloc
 {
     [[[GAI sharedInstance] defaultTracker] close];
-    [super dealloc];
+    //[super dealloc];
 }
 
 @end
